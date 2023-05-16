@@ -1,4 +1,4 @@
-#define termo 13
+#define pinTermo 13
 #define TRIG_1 12
 #define ECHO_1 14
 #define pinR 27
@@ -13,7 +13,7 @@ const float BETA = 3950; //coeficiente beta do termistor
 
 void setup() {
   Serial.begin(115200);
-  pinMode(termo,INPUT);
+  pinMode(pinTermo,INPUT);
   pinMode(TRIG_1, OUTPUT);
   pinMode(ECHO_1, INPUT);
   pinMode(pinR,OUTPUT);
@@ -23,9 +23,8 @@ void setup() {
 }
 
 void loop() {
-  int analogValue = analogRead(termo);
-  int temp = map(analogValue, 4095, 0, 1023, 0); //conversão de captação 12-bits (esp32) para 10-bits (arduino)
-  float celsius = 1 / (log(1 / (1023. / temp - 1)) / BETA + 1.0 / 298.15) - 273.15; //Fórmula de conversão tensão captada - graus celsius
+  int analogValue = analogRead(pinTermo);
+  float celsius = 1 / (log(1 / (4095. / analogValue - 1)) / BETA + 1.0 / 298.15) - 273.15;
 
   // Inicia uma nova medição do sensor ultrassonico
   digitalWrite(TRIG_1, HIGH);
